@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<!-- Author: Owen Venter-->
+<!--Version 2-->
+<html lang="en">
+<head>
+    <!-- Link to the style sheet containing all the css-->
+    <link rel="stylesheet" href="style.css">
+    <title>Monitor Webpage</title>
+</head>
+
+<body>
+
+
+    <div class="row">
+        <!-- Column 1-->
+        <div class="column" style="background-color:#aaa;">
+          <h2 style="text-align:center">Consumption</h2>
+          <!-- Consumption Table -->
+          <!--The link is to a version of the google sheets table that has been exported to HTML, to export other sheets data just get the sheet ID (Located 
+            between the /d/ and /edit in the Google sheets URL and then place that in this link and replace the ID after /d/. Also change the number at the 
+            end of this URL to the gID of your google sheet, this cna be found at the end if the google sheet url)-->
+          <object style="float: right;" data="https://docs.google.com/spreadsheets/d/1VTOSOVW1MiKU_5eF732jV41Fb4ZhbkwWYM2K-HEPMRM/gviz/tq?tqx=out:html&tq&gid=0" width="400" height="600" >
+        </object>
+        </div>
+
+        <!-- Column 2-->
+        <div class="column" style="background-color:#bbb;">
+          <h2 style="text-align:center">Current Low Usage Period</h2>
+            <div style="text-align:center">
+                <div class="innercolumn1" >
+                    <!-- To and from time will be imported in a later version-->
+                    <h3 style=height:200px;>From: 22:30</h3>
+                    <h3>From:
+                    </h3>
+                    <form action="/action_page.php">
+                        <label for="appt">Select a time:</label>
+                        <input type="time" id="appt" name="appt">
+                        <input type="submit">
+                    </form>
+                </div>
+
+                <div class="innercolumn2">
+                    <!-- To and from time will be imported in a later version-->
+                    <h3 style=height:200px;>To: 05:00</h3>
+                    <h3>To:</h3>
+                    <form action="/action_page.php">
+                        <label for="appt">Select a time:</label>
+                        <input type="time" id="appt" name="appt">
+                        <input type="submit">
+                    </form>
+                </div>
+        </div>
+        </div>
+
+
+
+        <!-- Column 3-->
+        <div class="column" style="background-color:#ccc;">
+            <h2 style="text-align:center">Wastage Detected</h2>
+            <!--Imported html table-->
+            <object style="float: right;" data="https://docs.google.com/spreadsheets/d/1VTOSOVW1MiKU_5eF732jV41Fb4ZhbkwWYM2K-HEPMRM/gviz/tq?tqx=out:html&tq&gid=922961886" width="90%" height="auto" >
+            </object>
+              <div style="text-align:center">
+              <button class="button buttonOn">Turn Decive On</button>
+              <button class="button buttonOff">Turn Decive Off</button>
+            </div>
+        </div>
+      </div>
+      
+
+
+      </body>
+</body>
+</html>
+
