@@ -7,6 +7,24 @@
     <!-- Link to the style sheet containing all the css-->
     <link rel="stylesheet" href="style.css">
     <title>Monitor Webpage</title>
+
+    <script type="text/javascript">
+      // The form is created in the body section of the HTML page.
+      
+      function updateTime(){
+        var fromText = document.getElementById('From');
+        var toText = document.getElementById('To');
+      var fromTime = document.getElementById('startTime');
+      var toTime = document.getElementById('endTime');
+      
+      fromText.innerHTML = "From:"+fromTime.value+".";
+      toText.innerHTML="To:"+toTime.value+".";
+      // We append .value to the end of name so that it sets the variable name
+      // to be equal to a property which is the value, not the object.
+      
+      }
+      
+      </script>
 </head>
 
 <body>
@@ -31,23 +49,23 @@
                 <div class="innercolumn1" >
                     <!-- To and from time will be imported in a later version-->
                     <h3 style=height:200px;>From: 22:30</h3>
-                    <h3>From:
+                    <h3 id="From">From:
                     </h3>
                     <form action="/action_page.php">
                         <label for="appt">Select a time:</label>
-                        <input type="time" id="appt" name="appt">
-                        <input type="submit">
+                        <input type="time" id="startTime" name="appt">
+                        <input type="submit" onclick="updateTime();">
                     </form>
                 </div>
 
                 <div class="innercolumn2">
                     <!-- To and from time will be imported in a later version-->
                     <h3 style=height:200px;>To: 05:00</h3>
-                    <h3>To:</h3>
+                    <h3 id="To">To:</h3>
                     <form action="/action_page.php">
                         <label for="appt">Select a time:</label>
-                        <input type="time" id="appt" name="appt">
-                        <input type="submit">
+                        <input type="time" id="endTime" name="appt">
+                        <input type="submit" onclick="updateTime();">
                     </form>
                 </div>
         </div>
