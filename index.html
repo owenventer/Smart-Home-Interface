@@ -23,6 +23,34 @@
       // to be equal to a property which is the value, not the object.
       
       }
+      function turnOff (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);
+		}
+    function turnOn (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);  
+		}
       
       </script>
 </head>
@@ -84,11 +112,11 @@
         <div class="column" style="background-color:#ccc;">
             <h2 style="text-align:center">Wastage Detected</h2>
             <!--Imported html table-->
-            <object style="float: right;" data="https://docs.google.com/spreadsheets/d/1VTOSOVW1MiKU_5eF732jV41Fb4ZhbkwWYM2K-HEPMRM/gviz/tq?tqx=out:html&tq&gid=922961886" width="90%" height="auto" >
+            <object style="float: right;" data="https://docs.google.com/spreadsheets/d/1Ef5n5fs30PXRz52T7qJkLMwWwXWfcTVw5wHbxvtaUgQ/gviz/tq?tqx=out:html&tq&gid=0" width="90%" height="auto" >
             </object>
               <div style="text-align:center">
-              <button class="button buttonOn">Turn Decive On</button>
-              <button class="button buttonOff">Turn Decive Off</button>
+              <button class="button buttonOn"onclick='turnOn()'>Turn Decive On</button>
+              <button class="button buttonOff"onclick='turnOff()'>Turn Decive Off</button>
             </div>
         </div>
       </div>
