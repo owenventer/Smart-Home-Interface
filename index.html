@@ -6,27 +6,68 @@
 <head>
     <!-- Link to the style sheet containing all the css-->
     <link rel="stylesheet" href="style.css">
-    <title>Monitor Webpage</title>
+    <title>M Webpage</title>
 
     <script type="text/javascript">
       // The form is created in the body section of the HTML page.
-      
       function updateTime(){
         var fromText = document.getElementById('From');
         var toText = document.getElementById('To');
-      var fromTime = document.getElementById('startTime');
-      var toTime = document.getElementById('endTime');
+        var fromTime = document.getElementById('startTime');
+        sessionStorage.setItem('fromTime',fromTime.value);
+        var toTime = document.getElementById('endTime');
+        var select= document.getElementById('TariffZone');
+        var tZone=select.options[select.selectedIndex].value;
+        sessionStorage.setItem('toTime',toTime.value);
+        console.log(tZone);
       
-      fromText.innerHTML = "From:"+fromTime.value;
-      toText.innerHTML="To:"+toTime.value;
+      fromText.innerHTML = "From:"+sessionStorage.getItem('fromTime');
+      toText.innerHTML="To:"+sessionStorage.getItem('toTime');
       // We append .value to the end of name so that it sets the variable name
       // to be equal to a property which is the value, not the object.
+
+      //Code to add the Tariff Zone to the sheets
       
+      fetch("https://api.apispreadsheets.com/data/18101/", {
+	      method: "POST",
+        //body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from18101whereCurrent Zone='Active'"}),
+        body: JSON.stringify({"data": {"Current Zone":"Active"}, "query": "select*from18101whereZone='" + tZone + "'"}),
+        
+          }).then(res =>{
+        if (res.status === 201){
+          // SUCCESS
+        }
+        else{
+          // ERROR
+        }
+      })
+      fetch("https://api.apispreadsheets.com/data/18101/", {
+	      method: "POST",
+        body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from18101whereCurrent Zone='Active'"}),
+        
+        
+          }).then(res =>{
+        if (res.status === 201){
+          // SUCCESS
+        }
+        else{
+          // ERROR
+        }
+      })
+
       }
-      function turnOff (){
+
+      window.addEventListener('load', function() {
+        fromText = document.getElementById('From');
+        toText = document.getElementById('To');
+        fromText.innerHTML = "From:"+sessionStorage.getItem('fromTime');
+        toText.innerHTML="To:"+sessionStorage.getItem('toTime');
+        
+      })
+      function turnOff1 (){
 		   fetch("https://api.apispreadsheets.com/data/17167/", {
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'"}),
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=1"}),
             }).then(res =>{
 	        if (res.status === 201){
 		     // SUCCESS
@@ -37,10 +78,66 @@
          })
          setTimeout(function(){location.reload()}, 2000);
 		}
-    function turnOn (){
+    function turnOn1 (){
 		   fetch("https://api.apispreadsheets.com/data/17167/", {
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'"}),
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=1"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);  
+		}
+    function turnOff2 (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=2"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);
+		}
+    function turnOn2 (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=2"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);  
+		}
+    function turnOff3 (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=3"}),
+            }).then(res =>{
+	        if (res.status === 201){
+		     // SUCCESS
+	        }
+	        else{
+	    	    // ERROR
+    	    }
+         })
+         setTimeout(function(){location.reload()}, 2000);
+		}
+    function turnOn3 (){
+		   fetch("https://api.apispreadsheets.com/data/17167/", {
+	        method: "POST",
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=3"}),
             }).then(res =>{
 	        if (res.status === 201){
 		     // SUCCESS
@@ -100,6 +197,18 @@
             </div>
             <div class="buttoncolumn">
               <h3 style=height:250px;></h3>
+              <p>Tariff Zone:</p>
+              <div class="custom-select" style="text-align:center;">
+                <select id="TariffZone">
+                  <option value="0">Select Tariff Zone:</option>
+                  <option value="A">A</option>
+                  <option value="B">B</option>
+                  <option value="C">C</option>
+                  <option value="D">D</option>
+              
+                </select>
+              </div>
+              <br>
               <form>
                 <input type="button" value="Submit" onclick="updateTime();">
               </form>
@@ -111,14 +220,30 @@
         <!-- Column 3-->
         <div class="column" style="background-color:#ccc;">
             <h2 style="text-align:center">Wastage Detected</h2>
+            <div >
             <!--Imported html table-->
-            <object style="float: right;" data="https://docs.google.com/spreadsheets/d/1Ef5n5fs30PXRz52T7qJkLMwWwXWfcTVw5wHbxvtaUgQ/gviz/tq?tqx=out:html&tq&gid=0" width="90%" height="auto" >
+            <object style="float: center;" data="https://docs.google.com/spreadsheets/d/1Ef5n5fs30PXRz52T7qJkLMwWwXWfcTVw5wHbxvtaUgQ/gviz/tq?tqx=out:html&tq&gid=0" width="100%" height="auto" >
             </object>
-              <div style="text-align:center">
-              <button class="button buttonOn"onclick='turnOn()'>Turn Decive On</button>
-              <button class="button buttonOff"onclick='turnOff()'>Turn Decive Off</button>
+          </div>
+        
+              <div style="text-align:center" >
+              <p>Device 1:</p>
+              <button class="button buttonOn"onclick='turnOn1()'>On</button>
+              <button class="button buttonOff"onclick='turnOff1()'>Off</button>
             </div>
-        </div>
+            <div style="text-align:center" >
+              <p>Device 2:</p>
+              <button class="button buttonOn"onclick='turnOn2()'>On</button>
+              <button class="button buttonOff"onclick='turnOff2()'>Off</button>
+            </div>
+            <div style="text-align:center" >
+              <p>Device 3:</p>
+              <button class="button buttonOn"onclick='turnOn3()'>On</button>
+              <button class="button buttonOff"onclick='turnOff3()'>Off</button>
+            </div>
+
+
+        
       </div>
       
 
