@@ -10,6 +10,7 @@
 
     <script type="text/javascript">
       // The form is created in the body section of the HTML page.
+      //This function is called when ever the submit button is clicked.
       function updateTime(){
         var fromText = document.getElementById('From');
         var toText = document.getElementById('To');
@@ -27,10 +28,11 @@
       // to be equal to a property which is the value, not the object.
 
       //Code to add the Tariff Zone to the sheets
+      //Using sheets API we can change specific elements in the google sheet with data entered into the form fields by the user.
       
+      //this method sets the selected zone to the "Active" status in the google sheet.
       fetch("https://api.apispreadsheets.com/data/18101/", {
 	      method: "POST",
-        //body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from18101whereCurrent Zone='Active'"}),
         body: JSON.stringify({"data": {"Current Zone":"Active"}, "query": "select*from18101whereZone='" + tZone + "'"}),
         
           }).then(res =>{
@@ -41,6 +43,7 @@
           // ERROR
         }
       })
+      //this method turns all the active zones off as to allow for only one active zone to be on.
       fetch("https://api.apispreadsheets.com/data/18101/", {
 	      method: "POST",
         body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from18101whereCurrent Zone='Active'"}),
@@ -64,6 +67,8 @@
         toText.innerHTML="To:"+sessionStorage.getItem('toTime');
         
       })
+
+      //the turnOff and turnOn functions use the sheets API to change the status of the devices in the sheet (On or off)
       function turnOff1 (){
 		   fetch("https://api.apispreadsheets.com/data/17167/", {
 	        method: "POST",
@@ -198,6 +203,7 @@
             <div class="buttoncolumn">
               <h3 style=height:250px;></h3>
               <p>Tariff Zone:</p>
+              //Multi-select element for the different tariff zones.
               <div class="custom-select" style="text-align:center;">
                 <select id="TariffZone">
                   <option value="0">Select Tariff Zone:</option>
@@ -225,7 +231,7 @@
             <object style="float: center;" data="https://docs.google.com/spreadsheets/d/1Ef5n5fs30PXRz52T7qJkLMwWwXWfcTVw5wHbxvtaUgQ/gviz/tq?tqx=out:html&tq&gid=0" width="100%" height="auto" >
             </object>
           </div>
-        
+          <!--Three different sets of on/off buttons for the the three different devices.-->
               <div style="text-align:center" >
               <p>Device 1:</p>
               <button class="button buttonOn"onclick='turnOn1()'>On</button>
