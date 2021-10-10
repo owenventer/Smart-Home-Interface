@@ -57,6 +57,28 @@
           // ERROR
         }
       })
+      fetch("https://api.apispreadsheets.com/data/18101/", {
+        method: "POST",
+        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('toTime')}, "query": "select*from18101whereZone='A'"}),
+      }).then(res =>{
+        if (res.status === 201){
+          // SUCCESS
+        }
+        else{
+          // ERROR
+        }
+      })
+      fetch("https://api.apispreadsheets.com/data/18101/", {
+        method: "POST",
+        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('fromTime')}, "query": "select*from18101whereZone='A'"}),
+      }).then(res =>{
+        if (res.status === 201){
+          // SUCCESS
+        }
+        else{
+          // ERROR
+        }
+      })
 
       }
 
@@ -203,7 +225,7 @@
             <div class="buttoncolumn">
               <h3 style=height:250px;></h3>
               <p>Tariff Zone:</p>
-              //Multi-select element for the different tariff zones.
+              <!--Multi-select element for the different tariff zones.-->
               <div class="custom-select" style="text-align:center;">
                 <select id="TariffZone">
                   <option value="0">Select Tariff Zone:</option>
