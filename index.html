@@ -59,7 +59,7 @@
       })
       fetch("https://api.apispreadsheets.com/data/18101/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime').toTimeString()}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime')}, "query": "select*from18101whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
           console.log("SUCCESS: Low period start time set");
@@ -70,7 +70,7 @@
       })
       fetch("https://api.apispreadsheets.com/data/18101/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime').toTimeString()}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime')}, "query": "select*from18101whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
           console.log("SUCCESS: Low period end time set");
@@ -79,7 +79,20 @@
           console.log("ERROR: Not able to set Low period end time");
         }
       })
+      fetch("https://api.apispreadsheets.com/data/18101/", {
+          method: "POST",
+          body: JSON.stringify({"data": {"Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)'}, "query": "select*from18101whereZone='A'"}),
+        }).then(res =>{
+          if (res.status === 201){
+            // SUCCESS
+          }
+          else{
+            // ERROR
+          }
+        })
 
+
+      
       }
 
       window.addEventListener('load', function() {
@@ -229,10 +242,10 @@
               <div class="custom-select" style="text-align:center;">
                 <select id="TariffZone">
                   <option value="0">Select Tariff Zone:</option>
-                  <option value="A">A</option>
-                  <option value="B">B</option>
-                  <option value="C">C</option>
-                  <option value="D">D</option>
+                  <option value="A">DOM2 <= 50kWh</option>
+                  <option value="B">DOM2 51-300 kWh</option>
+                  <option value="C">DOM2 301-600 kWh</option>
+                  <option value="D">DOM2 >600kWh</option>
               
                 </select>
               </div>
