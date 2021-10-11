@@ -84,10 +84,10 @@
           body: JSON.stringify({"data": {"Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)'}, "query": "select*from18101whereZone='A'"}),
         }).then(res =>{
           if (res.status === 201){
-            // SUCCESS
+            console.log("SUCCESS: Updated the formula");
           }
           else{
-            // ERROR
+            console.log("ERROR: Could not update the formula")
           }
         })
 
