@@ -37,10 +37,10 @@
         
           }).then(res =>{
         if (res.status === 201){
-          // SUCCESS
+          consol.log("SUCCESS: Zone succesfully made active");
         }
         else{
-          // ERROR
+          consol.log("ERROR: Zone not made active");
         }
       })
       //this method turns all the active zones off as to allow for only one active zone to be on.
@@ -51,32 +51,32 @@
         
           }).then(res =>{
         if (res.status === 201){
-          // SUCCESS
+          consol.log("SUCCESS:Zones succesfully turned off");
         }
         else{
-          // ERROR
+          consol.log("ERROR:Not all zones were able to turn off");
         }
       })
       fetch("https://api.apispreadsheets.com/data/18101/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('toTime')}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime').toTimeString()}, "query": "select*from18101whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
-          // SUCCESS
+          consol.log("SUCCESS: Low period start time set");
         }
         else{
-          // ERROR
+          consol.log("ERROR:Not able to set low period start time");
         }
       })
       fetch("https://api.apispreadsheets.com/data/18101/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('fromTime')}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime').toTimeString()}, "query": "select*from18101whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
-          // SUCCESS
+          consol.log("SUCCESS: Low period end time set");
         }
         else{
-          // ERROR
+          consol.log("ERROR: Not able to set Low period end time");
         }
       })
 
@@ -97,10 +97,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=1"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS: turned device 1 Off");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR: Could not turn device 1 off");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);
@@ -111,10 +111,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=1"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS:turned device 1 On");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR:Could not turn device 1 On");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);  
@@ -125,10 +125,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=2"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS:turned device 2 Off");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR:Could not tur device 2 Off");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);
@@ -139,10 +139,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=2"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS:turned device 2 On");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR:Could not turn device 2 On");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);  
@@ -153,10 +153,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=3"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS:turned device 3 Off");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR:Could not turn device 3 Off");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);
@@ -167,10 +167,10 @@
 	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=3"}),
             }).then(res =>{
 	        if (res.status === 201){
-		     // SUCCESS
+            consol.log("SUCCESS:turned device 3 On");
 	        }
 	        else{
-	    	    // ERROR
+	    	    consol.log("ERROR:Could not turn device 3 On");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);  
