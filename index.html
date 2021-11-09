@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<!-- Author: Owen Venter-->
-<!--Version 2-->
-<!--On Github T-->
+<!-- Website developed for the purposes of a study on THE FEASIBILITY OF AN ELECTRICAL CONSUMPTION WASTE DETECTION AND PREVENTION SYSTEM
+Final Version-->
+
 <html lang="en">
 <head>
     <!-- Link to the style sheet containing all the css-->
@@ -29,24 +29,10 @@
 
       //Code to add the Tariff Zone to the sheets
       //Using sheets API we can change specific elements in the google sheet with data entered into the form fields by the user.
-      
-      //this method sets the selected zone to the "Active" status in the google sheet.
-      fetch("https://api.apispreadsheets.com/data/18101/", {
-	      method: "POST",
-        body: JSON.stringify({"data": {"Current Zone":"Active"}, "query": "select*from18101whereZone='" + tZone + "'"}),
-        
-          }).then(res =>{
-        if (res.status === 201){
-          console.log("SUCCESS: Zone succesfully made active");
-        }
-        else{
-          console.log("ERROR: Zone not made active");
-        }
-      })
       //this method turns all the active zones off as to allow for only one active zone to be on.
-      fetch("https://api.apispreadsheets.com/data/18101/", {
+      fetch("https://api.apispreadsheets.com/data/20197/", {
 	      method: "POST",
-        body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from18101whereCurrent Zone='Active'"}),
+        body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from20197whereCurrent Zone='Active'"}),
         
         
           }).then(res =>{
@@ -57,9 +43,23 @@
           console.log("ERROR:Not all zones were able to turn off");
         }
       })
-      fetch("https://api.apispreadsheets.com/data/18101/", {
+      //this method sets the selected zone to the "Active" status in the google sheet.
+      fetch("https://api.apispreadsheets.com/data/20197/", {
+	      method: "POST",
+        body: JSON.stringify({"data": {"Current Zone":"Active"}, "query": "select*from20197whereZone='" + tZone + "'"}),
+        
+          }).then(res =>{
+        if (res.status === 201){
+          console.log("SUCCESS: Zone succesfully made active");
+        }
+        else{
+          console.log("ERROR: Zone not made active");
+        }
+      })
+      
+      fetch("https://api.apispreadsheets.com/data/20197/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime')}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime') }, "query": "select*from20197whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
           console.log("SUCCESS: Low period start time set");
@@ -68,9 +68,9 @@
           console.log("ERROR:Not able to set low period start time");
         }
       })
-      fetch("https://api.apispreadsheets.com/data/18101/", {
+      fetch("https://api.apispreadsheets.com/data/20197/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime')}, "query": "select*from18101whereZone='A'"}),
+        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime')}, "query": "select*from20197whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
           console.log("SUCCESS: Low period end time set");
@@ -79,9 +79,9 @@
           console.log("ERROR: Not able to set Low period end time");
         }
       })
-      fetch("https://api.apispreadsheets.com/data/18101/", {
+      fetch("https://api.apispreadsheets.com/data/20197/", {
           method: "POST",
-          body: JSON.stringify({"data": {"Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)'}, "query": "select*from18101whereZone='A'"}),
+          body: JSON.stringify({"data": {"Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)'}, "query": "select*from201971whereZone='A'"}),
         }).then(res =>{
           if (res.status === 201){
             console.log("SUCCESS: Updated the formula");
@@ -105,23 +105,23 @@
 
       //the turnOff and turnOn functions use the sheets API to change the status of the devices in the sheet (On or off)
       function turnOff1 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
-	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=1"}),
-            }).then(res =>{
-	        if (res.status === 201){
-            console.log("SUCCESS: turned device 1 Off");
-	        }
-	        else{
-	    	    console.log("ERROR: Could not turn device 1 off");
-    	    }
-         })
-         setTimeout(function(){location.reload()}, 2000);
-		}
+        fetch("https://api.apispreadsheets.com/data/20198/", {
+            method: "POST",
+            body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from20198whereComand Status='On'ANDNumber=1"}),
+          }).then(res =>{
+            if (res.status === 201){
+              // SUCCESS
+            }
+            else{
+              console.log("ERROR:Could not turn device 1 On");
+            }
+          })
+            setTimeout(function(){location.reload()}, 2000);
+              }
     function turnOn1 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
+      fetch("https://api.apispreadsheets.com/data/20198/", { 
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=1"}),
+	        body: JSON.stringify({"data": {"Electricity Consumed kWh":'=IMPORTRANGE("https://docs.google.com/spreadsheets/d/1VTOSOVW1MiKU_5eF732jV41Fb4ZhbkwWYM2K-HEPMRM/edit#gid=0", "WorkingSheet!A2")',"Cost":'=IMPORTRANGE("https://docs.google.com/spreadsheets/d/1V-T0X3qKo_s7faL2tyLdide0b7CrkjywpT5PHpdgyag/edit#gid=0", "Sheet1!I2")*C2',"Comand Status":"On"}, "query": "select*from20198whereComand Status='Off'ANDNumber=1"}),
             }).then(res =>{
 	        if (res.status === 201){
             console.log("SUCCESS:turned device 1 On");
@@ -133,23 +133,23 @@
          setTimeout(function(){location.reload()}, 2000);  
 		}
     function turnOff2 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
+      fetch("https://api.apispreadsheets.com/data/20198/", { 
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=2"}),
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from20198whereComand Status='On'ANDNumber=2"}),
             }).then(res =>{
 	        if (res.status === 201){
             console.log("SUCCESS:turned device 2 Off");
 	        }
 	        else{
-	    	    console.log("ERROR:Could not tur device 2 Off");
+	    	    console.log("ERROR:Could not turn device 2 Off");
     	    }
          })
          setTimeout(function(){location.reload()}, 2000);
 		}
     function turnOn2 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
+      fetch("https://api.apispreadsheets.com/data/20198/", { 
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=2"}),
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from20198whereComand Status='Off'ANDNumber=2"}),
             }).then(res =>{
 	        if (res.status === 201){
             console.log("SUCCESS:turned device 2 On");
@@ -161,9 +161,9 @@
          setTimeout(function(){location.reload()}, 2000);  
 		}
     function turnOff3 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
+      fetch("https://api.apispreadsheets.com/data/20198/", {
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from17167whereComand Status='On'ANDNumber=3"}),
+	        body: JSON.stringify({"data": {"Comand Status":"Off"}, "query": "select*from20198whereComand Status='On'ANDNumber=3"}),
             }).then(res =>{
 	        if (res.status === 201){
             console.log("SUCCESS:turned device 3 Off");
@@ -175,9 +175,9 @@
          setTimeout(function(){location.reload()}, 2000);
 		}
     function turnOn3 (){
-		   fetch("https://api.apispreadsheets.com/data/17167/", {
+      fetch("https://api.apispreadsheets.com/data/20198/", {
 	        method: "POST",
-	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from17167whereComand Status='Off'ANDNumber=3"}),
+	        body: JSON.stringify({"data": {"Comand Status":"On"}, "query": "select*from20198whereComand Status='Off'ANDNumber=3"}),
             }).then(res =>{
 	        if (res.status === 201){
             console.log("SUCCESS:turned device 3 On");
