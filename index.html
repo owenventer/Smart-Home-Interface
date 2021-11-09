@@ -21,16 +21,24 @@ Final Version-->
         var tZone=select.options[select.selectedIndex].value;
         sessionStorage.setItem('toTime',toTime.value);
         console.log(tZone);
+        console.log(toTime.value);
+        console.log(fromTime.value);
       
       fromText.innerHTML = "From:"+sessionStorage.getItem('fromTime');
       toText.innerHTML="To:"+sessionStorage.getItem('toTime');
+      var AText="Off";
+      if(tZone=='A'){
+        AText="Active";
+        console.log("IF STATEMENT A");
+      }
       // We append .value to the end of name so that it sets the variable name
       // to be equal to a property which is the value, not the object.
 
       //Code to add the Tariff Zone to the sheets
       //Using sheets API we can change specific elements in the google sheet with data entered into the form fields by the user.
-      //this method turns all the active zones off as to allow for only one active zone to be on.
-      fetch("https://api.apispreadsheets.com/data/20197/", {
+      
+         //this method turns all the active zones off as to allow for only one active zone to be on.
+         fetch("https://api.apispreadsheets.com/data/20197/", {
 	      method: "POST",
         body: JSON.stringify({"data": {"Current Zone":"Off"}, "query": "select*from20197whereCurrent Zone='Active'"}),
         
@@ -56,10 +64,11 @@ Final Version-->
           console.log("ERROR: Zone not made active");
         }
       })
-      
+
+
       fetch("https://api.apispreadsheets.com/data/20197/", {
         method: "POST",
-        body: JSON.stringify({"data": {"Low Period Start":sessionStorage.getItem('fromTime') }, "query": "select*from20197whereZone='A'"}),
+        body: JSON.stringify({"data": {"Current Zone":AText,"Low Period Start":sessionStorage.getItem('fromTime'),"Low Period Finish":sessionStorage.getItem('toTime'), "Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)' }, "query": "select*from20197whereZone='A'"}),
       }).then(res =>{
         if (res.status === 201){
           console.log("SUCCESS: Low period start time set");
@@ -68,31 +77,9 @@ Final Version-->
           console.log("ERROR:Not able to set low period start time");
         }
       })
-      fetch("https://api.apispreadsheets.com/data/20197/", {
-        method: "POST",
-        body: JSON.stringify({"data": {"Low Period Finish":sessionStorage.getItem('toTime')}, "query": "select*from20197whereZone='A'"}),
-      }).then(res =>{
-        if (res.status === 201){
-          console.log("SUCCESS: Low period end time set");
-        }
-        else{
-          console.log("ERROR: Not able to set Low period end time");
-        }
-      })
-      fetch("https://api.apispreadsheets.com/data/20197/", {
-          method: "POST",
-          body: JSON.stringify({"data": {"Reporting rate":'=IFS(E2="Active",D2,E3="Active",D3,E4="Active",D4,E5="Active",D5)'}, "query": "select*from201971whereZone='A'"}),
-        }).then(res =>{
-          if (res.status === 201){
-            console.log("SUCCESS: Updated the formula");
-          }
-          else{
-            console.log("ERROR: Could not update the formula")
-          }
-        })
 
-
-      
+     
+      setTimeout(function(){location.reload()}, 2000);
       }
 
       window.addEventListener('load', function() {
