@@ -20,16 +20,16 @@ Final Version-->
         var select= document.getElementById('TariffZone');
         var tZone=select.options[select.selectedIndex].value;
         sessionStorage.setItem('toTime',toTime.value);
-        console.log(tZone);
-        console.log(toTime.value);
-        console.log(fromTime.value);
+        console.log("Zone: "+tZone);
+        console.log("Start Time: "+toTime.value);
+        console.log("End Time: "+fromTime.value);
       
       fromText.innerHTML = "From:"+sessionStorage.getItem('fromTime');
       toText.innerHTML="To:"+sessionStorage.getItem('toTime');
       var AText="Off";
       if(tZone=='A'){
         AText="Active";
-        console.log("IF STATEMENT A");
+       
       }
       // We append .value to the end of name so that it sets the variable name
       // to be equal to a property which is the value, not the object.
@@ -79,7 +79,7 @@ Final Version-->
       })
 
      
-      setTimeout(function(){location.reload()}, 2000);
+      setTimeout(function(){location.reload()}, 3000);
       }
 
       window.addEventListener('load', function() {
@@ -244,7 +244,6 @@ Final Version-->
         </div>
         
 
-
         <!-- Column 3-->
         <div class="column" style="background-color:#ccc;">
             <h2 style="text-align:center">Wastage Detected</h2>
@@ -270,11 +269,7 @@ Final Version-->
               <button class="button buttonOff"onclick='turnOff3()'>Off</button>
             </div>
 
-
-        
       </div>
-      
-
 
       </body>
 </body>
